@@ -5,8 +5,8 @@ AutoDealer.auto_communication = (function () {
     const CommunicationType = {
         Email: 635410001,
         Phone: 635410000
-    };    
-
+    }; 
+    
     const handleTypeChange = (context) => {
         let formContext = context.getFormContext();
 
