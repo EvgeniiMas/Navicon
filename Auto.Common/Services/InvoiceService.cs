@@ -84,24 +84,31 @@ namespace Auto.Common.Services
                 }
             }
 
-            var agreement = GetAgreement(agreementRef.Id, new ColumnSet("auto_fullcreditamount"));
+            var agreement = GetAgreement(agreementRef.Id, new ColumnSet("auto_fullcreditamount", "auto_summa"));
 
-            if (agreement == null ||
-                agreement.auto_fullcreditamount == null)
-            {
-                throw new Exception("Не указана общая сумма у сущности \"Договор\"");
-            }
+            if (agreement == null)
+                throw new Exception("Не найден переданный договор");
+            
+            var agreementSumma = agreement.auto_summa;            
 
-            if (invoicesAmount > agreement.auto_fullcreditamount.Value)
-                throw new Exception("Сумма оплат не может превышать общую сумму договора");
+            if (agreement.auto_fullcreditamount != null)
+                agreementSumma = agreement.auto_fullcreditamount;
+
+            if (agreementSumma == null)
+                throw new Exception("Не указана сумма у договора");
+
+            if (invoicesAmount > agreementSumma.Value)
+                throw new Exception("Сумма оплат не может превышать сумму по договора");
 
             invoice.auto_paydate = DateTime.UtcNow;
 
-            var agreementEntity = new Entity(agreementRef.LogicalName, agreementRef.Id).ToEntity<auto_agreement>();
-            agreementEntity.auto_factsumma = new Money(invoicesAmount);
+            var agreementEntity = new auto_agreement()
+            {
+                Id = agreementRef.Id,
+                auto_factsumma = new Money(invoicesAmount)
+            };
             _organizationService.Update(agreementEntity);
         }
-
 
         /// <summary>
         /// Пересчитать сумму по счетам
