@@ -70,8 +70,10 @@ namespace Auto.Common.Services
             if (contact.auto_date == null ||
                 contact.auto_date > agreement.auto_date)
             {
-                var contactEntity = new Entity(contact.LogicalName, contact.Id).ToEntity<Contact>();
-                contactEntity.auto_date = agreement.auto_date;
+                var contactEntity = new Contact(){
+                    Id = contact.Id,
+                    auto_date = agreement.auto_date
+                };
                 _organizationService.Update(contactEntity);
             }
         }

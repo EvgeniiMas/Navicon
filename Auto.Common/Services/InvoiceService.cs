@@ -95,10 +95,10 @@ namespace Auto.Common.Services
                 agreementSumma = agreement.auto_fullcreditamount;
 
             if (agreementSumma == null)
-                throw new Exception("Не указана сумма у договора");
+                throw new Exception("Не указана сумма договора");
 
             if (invoicesAmount > agreementSumma.Value)
-                throw new Exception("Сумма оплат не может превышать сумму по договора");
+                throw new Exception("Сумма оплат не может превышать сумму по договору");
 
             invoice.auto_paydate = DateTime.UtcNow;
 
@@ -129,8 +129,11 @@ namespace Auto.Common.Services
                 .Where(i => i.Id != invoiceRef.Id)
                 .Sum(i => i.auto_amount?.Value ?? 0);
 
-            var agreementEntity = new Entity(agreementRef.LogicalName, agreementRef.Id).ToEntity<auto_agreement>();
-            agreementEntity.auto_factsumma = new Money(invoicesAmount);
+            var agreementEntity = new auto_agreement()
+            {
+                Id = agreementRef.Id,
+                auto_factsumma = new Money(invoicesAmount)
+            };
             _organizationService.Update(agreementEntity);
         }
 
