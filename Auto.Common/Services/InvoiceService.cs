@@ -138,6 +138,107 @@ namespace Auto.Common.Services
         }
 
         /// <summary>
+        /// Существует ли у договора хотя бы один счет
+        /// </summary>
+        /// <param name="agreementRef">Ссылка на договор</param>
+        /// <returns></returns>
+        public bool IsExists(EntityReference agreementRef)
+        {
+            if (agreementRef == null)
+                throw new ArgumentNullException(nameof(agreementRef));
+
+            return GetInvoicesByAgreement(agreementRef.Id, new ColumnSet(auto_invoice.PrimaryIdAttribute)).Any();
+        }
+
+        /// <summary>
+        /// Существует ли у договора хотя бы один оплаченный счет
+        /// </summary>
+        /// <param name="agreementRef">Ссылка на договор</param>
+        /// <returns></returns>
+        public bool IsExistsPaid(EntityReference agreementRef)
+        {
+            if (agreementRef == null)
+                throw new ArgumentNullException(nameof(agreementRef));
+
+            return GetInvoicesByAgreement(agreementRef.Id, new ColumnSet("auto_fact"))
+                .Where(i => i.auto_fact.HasValue && i.auto_fact.Value)
+                .Any();
+        }
+
+        /// <summary>
+        /// Существует ли у договора хотя бы один счет, созданный вручную
+        /// </summary>
+        /// <param name="agreementRef">Ссылка на договор</param>
+        /// <returns></returns>
+        public bool IsExistsManualy(EntityReference agreementRef)
+        {
+            if (agreementRef == null)
+                throw new ArgumentNullException(nameof(agreementRef));
+
+            return GetInvoicesByAgreement(agreementRef.Id, new ColumnSet("auto_type"))
+                .Where(i => i.auto_type.HasValue && i.auto_type == auto_invoice_auto_type.Ruchnoe_sozdanie)
+                .Any();
+        }
+
+        /// <summary>
+        /// Удалить счета, созданные автоматически, которые связаны с договором
+        /// </summary>
+        /// <param name="agreementRef">Ссылка на договор</param>
+        /// <returns></returns>
+        public void RemoveAutomatic(EntityReference agreementRef)
+        {
+            if (agreementRef == null)
+                throw new ArgumentNullException(nameof(agreementRef));
+
+            var automaticInvoices = GetInvoicesByAgreement(agreementRef.Id, new ColumnSet("auto_type"))
+                .Where(i => i.auto_type.HasValue && i.auto_type == auto_invoice_auto_type.Avtomaticheskoe_sozdanie);
+
+            foreach (var invoice in automaticInvoices)
+            {
+                _organizationService.Delete(auto_invoice.EntityLogicalName, invoice.Id);
+            }
+        }
+
+        /// <summary>
+        /// Сформировать график платежей по договору
+        /// </summary>
+        /// <param name="agreementRef">Ссылка на договор</param>
+        public void GenerateSchedule(EntityReference agreementRef)
+        {
+            if (agreementRef == null)
+                throw new ArgumentNullException(nameof(agreementRef));
+
+            var agreement = GetAgreement(agreementRef.Id, new ColumnSet("auto_creditperiod", "auto_fullcreditamount"));
+
+            if (!agreement.auto_creditperiod.HasValue)
+                throw new Exception("Не указан срок кредита у сущности \"Договор\"");
+
+            if (agreement.auto_fullcreditamount == null)
+                throw new Exception("Не указана сумма кредита у сущности \"Договор\"");
+
+            var monthCount = 12 * agreement.auto_creditperiod.Value;
+            var invoiceAmount = agreement.auto_fullcreditamount.Value / monthCount;
+
+            for (var i = 1; i <= monthCount; i++)
+            {
+                var paymentDate = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1).AddMonths(i);
+
+                var invoice = new auto_invoice()
+                {
+                    auto_name = i.ToString(),
+                    auto_date = paymentDate,
+                    auto_paydate = paymentDate,
+                    auto_dogovorid = agreementRef,
+                    auto_fact = false,
+                    auto_type = auto_invoice_auto_type.Avtomaticheskoe_sozdanie,
+                    auto_amount = new Money(invoiceAmount)
+                };
+
+                _organizationService.Create(invoice);
+            }
+        }
+
+        /// <summary>
         /// Получить все счета по договору
         /// </summary>
         /// <param name="agreementId">Идентификатор договора</param>
