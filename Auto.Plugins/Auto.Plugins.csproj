@@ -8,8 +8,8 @@
     <ProjectGuid>{B3D7A76F-A558-4F2E-9438-5C4BD6793D46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoDealer.Plugin</RootNamespace>
-    <AssemblyName>AutoDealer.Plugin</AssemblyName>
+    <RootNamespace>Auto.Plugins</RootNamespace>
+    <AssemblyName>Auto.Plugins</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -103,6 +103,8 @@
     <Compile Include="auto_invoice\PreCreateInvoice.cs" />
     <Compile Include="auto_invoice\PreDeleteInvoice.cs" />
     <Compile Include="auto_invoice\PreUpdateInvoiceFact.cs" />
+    <Compile Include="Base\BasePlugin.cs" />
+    <Compile Include="Base\PluginServiceCollector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
