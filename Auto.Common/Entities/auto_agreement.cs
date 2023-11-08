@@ -257,7 +257,7 @@ namespace Auto.Common.Entities
 		}
 		
 		/// <summary>
-		/// Был ли оплачен договор?
+		/// Оплачен
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_fact")]
 		public System.Nullable<bool> auto_fact
@@ -277,7 +277,7 @@ namespace Auto.Common.Entities
 		}
 		
 		/// <summary>
-		/// Оплаченная сумма по кредиту
+		/// Оплаченная сумма
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_factsumma")]
 		public Microsoft.Xrm.Sdk.Money auto_factsumma
@@ -393,6 +393,86 @@ namespace Auto.Common.Entities
 				this.OnPropertyChanging("auto_initialfee_Base");
 				this.SetAttributeValue("auto_initialfee_base", value);
 				this.OnPropertyChanged("auto_initialfee_Base");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_invoicesamount")]
+		public Microsoft.Xrm.Sdk.Money auto_invoicesamount
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("auto_invoicesamount");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("auto_invoicesamount");
+				this.SetAttributeValue("auto_invoicesamount", value);
+				this.OnPropertyChanged("auto_invoicesamount");
+			}
+		}
+		
+		/// <summary>
+		/// Значение поля Сумма по счетам в базовой валюте.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_invoicesamount_base")]
+		public Microsoft.Xrm.Sdk.Money auto_invoicesamount_Base
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("auto_invoicesamount_base");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("auto_invoicesamount_Base");
+				this.SetAttributeValue("auto_invoicesamount_base", value);
+				this.OnPropertyChanged("auto_invoicesamount_Base");
+			}
+		}
+		
+		/// <summary>
+		/// Время последнего обновления поля свертки Сумма по счетам.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_invoicesamount_date")]
+		public System.Nullable<System.DateTime> auto_invoicesamount_Date
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("auto_invoicesamount_date");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("auto_invoicesamount_Date");
+				this.SetAttributeValue("auto_invoicesamount_date", value);
+				this.OnPropertyChanged("auto_invoicesamount_Date");
+			}
+		}
+		
+		/// <summary>
+		/// Состояние поля свертки Сумма по счетам.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_invoicesamount_state")]
+		public System.Nullable<int> auto_invoicesamount_State
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<int>>("auto_invoicesamount_state");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("auto_invoicesamount_State");
+				this.SetAttributeValue("auto_invoicesamount_state", value);
+				this.OnPropertyChanged("auto_invoicesamount_State");
 			}
 		}
 		

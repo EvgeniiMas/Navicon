@@ -74,6 +74,26 @@ namespace Auto.Common.Entities
 		}
 		
 		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_agreementcount")]
+		public System.Nullable<int> auto_agreementCount
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<int>>("auto_agreementcount");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("auto_agreementCount");
+				this.SetAttributeValue("auto_agreementcount", value);
+				this.OnPropertyChanged("auto_agreementCount");
+			}
+		}
+		
+		/// <summary>
 		/// Стоимость автомобиля
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("auto_amount")]
