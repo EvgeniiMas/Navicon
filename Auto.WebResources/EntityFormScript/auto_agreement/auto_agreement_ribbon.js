@@ -71,6 +71,25 @@ AutoDealer.auto_agreement_ribbon = (function () {
                         console.error(error.message);
                     }
                 );
+        },
+
+        openTelegramChat: function () {
+            let userId = Xrm.Utility.getGlobalContext().userSettings.userId;
+
+            Xrm.WebApi
+                .retrieveMultipleRecords("auto_system_parameter", "?$select=auto_key,auto_value&$top=1000")
+                .then(
+                    (result) => {
+                        result.entities.forEach((entity) => {
+                            if (entity.auto_key === "tgUsername") {
+                                window.open(`https://web.telegram.org/k/#@${entity.auto_value}`, '_blank');
+                                return;
+                            }
+                        });
+
+                        console.error('Системный параметр с ключем "tgUsername" не найден');
+                    }
+                )            
         }
     };
 })();
