@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import { editUserAction } from '../store/userReducer';
 
-function UserEditor({ user, show, handleClose, handleUpdate }) {
+function UserEditor({ user, show, handleClose }) {
 
-    const update = () => {
-        handleUpdate(user.id, name, email, phone, username, website);
-        handleClose();
-    }
-
+    const dispatch = useDispatch();
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
     const [phone, setPhone] = useState(user.phone);
@@ -34,6 +32,11 @@ function UserEditor({ user, show, handleClose, handleUpdate }) {
 
     const handleChangeWebsite = (e) => {
         setWebsite(e.target.value);
+    }
+
+    const update = () => {
+        dispatch(editUserAction({ id: user.id, name, email, phone, username, website }));
+        handleClose();
     }
 
     return (

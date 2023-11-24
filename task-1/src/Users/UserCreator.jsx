@@ -2,19 +2,13 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUserAction } from '../store/userReducer';
 
-function UserCreator({ show, handleClose, handleCreate }) {
+function UserCreator({ show, handleClose }) {
 
-    const save = () => {
-        handleCreate(name, email, phone, username, website);
-        setName("");
-        setEmail("");
-        setPhone("");
-        setUsername("");
-        setWebsite("");
-        handleClose();
-    }
-
+    const dispatch = useDispatch();
+    const users = useSelector(state => state.user.users);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -39,6 +33,17 @@ function UserCreator({ show, handleClose, handleCreate }) {
 
     const handleChangeWebsite = (e) => {
         setWebsite(e.target.value);
+    }
+
+    const save = () => {
+        var id = Math.max(...users.map((user) => user.id)) + 1;
+        dispatch(addUserAction({ id, name, email, phone, username, website }));
+        setName("");
+        setEmail("");
+        setPhone("");
+        setUsername("");
+        setWebsite("");
+        handleClose();
     }
 
     return (

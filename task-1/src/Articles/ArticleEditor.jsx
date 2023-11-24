@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from "react-redux";
+import { editArticleAction } from "../store/articleReducer";
 
-function ArticleEditor({ article, show, handleClose, handleUpdate }) {
+function ArticleEditor({ article, show, handleClose }) {
 
-    const update = () => {
-        handleUpdate(article.id, title, body);
-        handleClose();
-    }
-
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(article.title);
     const [body, setBody] = useState(article.body);
 
@@ -19,6 +17,11 @@ function ArticleEditor({ article, show, handleClose, handleUpdate }) {
 
     const handleChangeBody = (e) => {
         setBody(e.target.value);
+    }
+
+    const update = () => {
+        dispatch(editArticleAction({ id: article.id, title, body }));
+        handleClose();
     }
 
     return (

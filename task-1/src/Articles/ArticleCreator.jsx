@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from "react-redux";
+import { addArticleAction } from "../store/articleReducer";
 
-function ArticleCreator({ show, handleClose, handleCreate }) {
+function ArticleCreator({ show, handleClose }) {
+
+    const dispatch = useDispatch();
+    const articles = useSelector(state => state.article.articles);
+
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
 
     const save = () => {
-        handleCreate(title, body);
+        let id = Math.max(...articles.map(article => article.id)) + 1;
+        dispatch(addArticleAction({ id, title, body }));
         setTitle("");
         setBody("");
         handleClose();
     }
-
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);

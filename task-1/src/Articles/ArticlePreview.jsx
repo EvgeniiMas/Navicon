@@ -6,7 +6,7 @@ import ArticleDetails from './ArticleDetails';
 import ArticleEditor from './ArticleEditor';
 import ArticleRemover from './ArticleRemover';
 
-function ArticlePreview({ article, update, remove }) {
+function ArticlePreview({ article }) {
     const limitTitleCharacterCount = 30;
     const limitBodyCharacterCount = 120;
 
@@ -31,15 +31,9 @@ function ArticlePreview({ article, update, remove }) {
 
     const handleCloseEditor = () => setIsShowEditor(false);
     const handleShowEditor = () => setIsShowEditor(true);
-    const handleUpdate = (id, title, body) => {
-        update(id, title, body);
-    }
 
     const handleCloseRemover = () => setIsShowRemover(false);
     const handleShowRemover = () => setIsShowRemover(true);
-    const handleRemove = (id) => {
-        remove(id);
-    }
 
     const toggleColorSet = () => {
         setSelectedColorSetNumber((selectedColorSetNumber + 1) % colorSets.length);
@@ -76,8 +70,8 @@ function ArticlePreview({ article, update, remove }) {
             </ButtonGroup>
 
             <ArticleDetails article={article} show={isShowDetails} handleClose={handleCloseDetails} />
-            <ArticleEditor article={article} show={isShowEditor} handleClose={handleCloseEditor} handleUpdate={handleUpdate} />
-            <ArticleRemover article={article} show={isShowRemover} handleClose={handleCloseRemover} handleRemove={handleRemove} />
+            <ArticleEditor article={article} show={isShowEditor} handleClose={handleCloseEditor} />
+            <ArticleRemover article={article} show={isShowRemover} handleClose={handleCloseRemover} />
         </Container>
     )
 }

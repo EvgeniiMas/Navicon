@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPhotoAction } from '../store/photoReducer';
 
-function PhotoCreator({ show, handleClose, handleCreate }) {
+function PhotoCreator({ show, handleClose }) {
 
-    const save = () => {
-        handleCreate(title, url);
-        setTitle("");
-        setUrl("");
-        handleClose();
-    }
-
+    const dispatch = useDispatch();
+    const photos = useSelector(state => state.photo.photos);
     const [title, setTitle] = useState("");
     const [url, setUrl] = useState("");
 
@@ -21,6 +18,14 @@ function PhotoCreator({ show, handleClose, handleCreate }) {
 
     const handleChangeUrl = (e) => {
         setUrl(e.target.value);
+    }
+
+    const save = () => {
+        let id = Math.max(...photos.map((photo) => photo.id)) + 1;
+        dispatch(addPhotoAction({ id, title, url }));
+        setTitle("");
+        setUrl("");
+        handleClose();
     }
 
     return (

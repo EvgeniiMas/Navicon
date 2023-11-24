@@ -6,7 +6,7 @@ import UserDetails from './UserDetails';
 import UserEditor from './UserEditor';
 import UserRemover from './UserRemover';
 
-function UserPreview({ user, update, remove }) {
+function UserPreview({ user }) {
 
     const colorSets = [{
         backgroundColor: "#ffffff",
@@ -29,15 +29,9 @@ function UserPreview({ user, update, remove }) {
 
     const handleCloseEditor = () => setIsShowEditor(false);
     const handleShowEditor = () => setIsShowEditor(true);
-    const handleUpdate = (id, name, email, phone, username, website) => {
-        update(id, name, email, phone, username, website);
-    }
 
     const handleCloseRemover = () => setIsShowRemover(false);
     const handleShowRemover = () => setIsShowRemover(true);
-    const handleRemove = (id) => {
-        remove(id);
-    }
 
     const toggleColorSet = () => {
         setSelectedColorSetNumber((selectedColorSetNumber + 1) % colorSets.length);
@@ -67,8 +61,8 @@ function UserPreview({ user, update, remove }) {
             </ButtonGroup>
 
             <UserDetails user={user} show={isShowDetails} handleClose={handleCloseDetails} />
-            <UserEditor user={user} show={isShowEditor} handleClose={handleCloseEditor} handleUpdate={handleUpdate} />
-            <UserRemover user={user} show={isShowRemover} handleClose={handleCloseRemover} handleRemove={handleRemove} />
+            <UserEditor user={user} show={isShowEditor} handleClose={handleCloseEditor} />
+            <UserRemover user={user} show={isShowRemover} handleClose={handleCloseRemover} />
         </Container>
     )
 }

@@ -1,11 +1,14 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useDispatch } from 'react-redux';
+import { removeUserAction } from '../store/userReducer';
 
-function UserRemover({ user, show, handleClose, handleRemove }) {
+function UserRemover({ user, show, handleClose }) {
 
+    const dispatch = useDispatch();
     const remove = () => {
-        handleRemove(user.id);
+        dispatch(removeUserAction({ id: user.id }));
         handleClose();
     }
 

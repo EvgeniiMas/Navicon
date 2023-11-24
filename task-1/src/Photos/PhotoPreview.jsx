@@ -6,7 +6,7 @@ import PhotoDetails from './PhotoDetails';
 import PhotoEditor from './PhotoEditor';
 import PhotoRemover from './PhotoRemover';
 
-function PhotoPreview({ photo, update, remove }) {
+function PhotoPreview({ photo }) {
     const colorSets = [{
         backgroundColor: "#ffffff",
         textColor: "#000000"
@@ -28,15 +28,9 @@ function PhotoPreview({ photo, update, remove }) {
 
     const handleCloseEditor = () => setIsShowEditor(false);
     const handleShowEditor = () => setIsShowEditor(true);
-    const handleUpdate = (id, title, url) => {
-        update(id, title, url);
-    }
 
     const handleCloseRemover = () => setIsShowRemover(false);
     const handleShowRemover = () => setIsShowRemover(true);
-    const handleRemove = (id) => {
-        remove(id);
-    }
 
     const toggleColorSet = () => {
         setSelectedColorSetNumber((selectedColorSetNumber + 1) % colorSets.length);
@@ -67,8 +61,8 @@ function PhotoPreview({ photo, update, remove }) {
             </ButtonGroup>
 
             <PhotoDetails photo={photo} show={isShowDetails} handleClose={handleCloseDetails} />
-            <PhotoEditor photo={photo} show={isShowEditor} handleClose={handleCloseEditor} handleUpdate={handleUpdate} />
-            <PhotoRemover photo={photo} show={isShowRemover} handleClose={handleCloseRemover} handleRemove={handleRemove} />
+            <PhotoEditor photo={photo} show={isShowEditor} handleClose={handleCloseEditor} />
+            <PhotoRemover photo={photo} show={isShowRemover} handleClose={handleCloseRemover} />
         </Container>
     )
 }

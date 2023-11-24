@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import { editPhotoAction } from '../store/photoReducer';
 
-function PhotoEditor({ photo, show, handleClose, handleUpdate }) {
+function PhotoEditor({ photo, show, handleClose }) {
 
-    const update = () => {
-        handleUpdate(photo.id, title, url);
-        handleClose();
-    }
-
+    const dispatch = useDispatch();
     const [title, setTitle] = useState(photo.title);
     const [url, setUrl] = useState(photo.url);
 
@@ -19,6 +17,11 @@ function PhotoEditor({ photo, show, handleClose, handleUpdate }) {
 
     const handleChangeUrl = (e) => {
         setUrl(e.target.value);
+    }
+
+    const update = () => {
+        dispatch(editPhotoAction({ id: photo.id, title, url }));
+        handleClose();
     }
 
     return (

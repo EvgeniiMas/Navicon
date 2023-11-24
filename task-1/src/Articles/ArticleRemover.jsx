@@ -1,11 +1,15 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useDispatch } from "react-redux";
+import { removeArticleAction } from "../store/articleReducer";
 
-function ArticleRemover({ article, show, handleClose, handleRemove }) {
+function ArticleRemover({ article, show, handleClose }) {
+
+    const dispatch = useDispatch();
 
     const remove = () => {
-        handleRemove(article.id);
+        dispatch(removeArticleAction({ id: article.id }));
         handleClose();
     }
 

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import UserPreview from './UserPreview';
 import UserCreator from './UserCreator';
@@ -7,34 +6,20 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../asyncActions/users';
 
 function Users() {
 
-    const [users, setUsers] = useState();
+    const dispatch = useDispatch();
+    const users = useSelector(state => state.user.users);
     const [columnCount, setColumnCount] = useState(2);
     const [displayedUserCount, setDisplayedUserCount] = useState(3);
     const [isShowCreator, setIsShowCreator] = useState(false);
 
     useEffect(() => {
-        let storagedUsers = JSON.parse(localStorage.getItem("users"));
-
-        if (storagedUsers != null) {
-
-            setUsers(storagedUsers);
-        } else {
-
-            let url = 'https://jsonplaceholder.typicode.com/users';
-            axios.get(url).then(
-                (resp) => {
-                    setUsers(resp.data);
-                    localStorage.setItem("users", JSON.stringify(resp.data));
-                },
-                (error) => {
-                    console.error(error.message);
-                }
-            );
-        }
-    }, [setUsers]);
+        dispatch(fetchUsers());
+    }, []);
 
     const handleCloseCreator = () => setIsShowCreator(false);
     const handleShowCreator = () => setIsShowCreator(true);
@@ -45,49 +30,6 @@ function Users() {
 
     const increaseDisplayedUserCount = () => {
         setDisplayedUserCount(displayedUserCount + 3);
-    }
-
-    const handleUpdateUser = (id, name, email, phone, username, website) => {
-        let increasedUserList = [
-            {
-                id,
-                name,
-                email,
-                phone,
-                username,
-                website
-            },
-            ...users.filter((user) => user.id !== id)
-        ];
-
-        setUsers(increasedUserList);
-        localStorage.setItem("users", JSON.stringify(increasedUserList));
-    }
-
-    const handleRemoveUser = (id) => {
-        let filteredUsers = users.filter((user) => user.id !== id);
-        setUsers(filteredUsers);
-        localStorage.setItem("users", JSON.stringify(filteredUsers));
-    }
-
-    const handleCreateUser = (name, email, phone, username, website) => {
-
-        let id = Math.max(...users.map(user => user.id)) + 1;
-
-        let increasedUserList = [
-            {
-                id,
-                name,
-                email,
-                phone,
-                username,
-                website
-            },
-            ...users
-        ];
-
-        setUsers(increasedUserList);
-        localStorage.setItem("users", JSON.stringify(increasedUserList));
     }
 
     return (
@@ -112,7 +54,7 @@ function Users() {
             <Row>
                 {users != null && users.slice(0, displayedUserCount).map((user) =>
                     <Col key={user.id} xs={12 / columnCount}>
-                        <UserPreview user={user} update={handleUpdateUser} remove={handleRemoveUser} />
+                        <UserPreview user={user} />
                     </Col>
                 )}
             </Row>
@@ -124,7 +66,7 @@ function Users() {
                 : null
             }
 
-            <UserCreator show={isShowCreator} handleClose={handleCloseCreator} handleCreate={handleCreateUser} />
+            <UserCreator show={isShowCreator} handleClose={handleCloseCreator} />
         </Container>
     )
 }

@@ -1,11 +1,14 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useDispatch } from 'react-redux';
+import { removePhotoAction } from '../store/photoReducer';
 
-function PhotoRemover({ photo, show, handleClose, handleRemove }) {
+function PhotoRemover({ photo, show, handleClose }) {
 
+    const dispatch = useDispatch();
     const remove = () => {
-        handleRemove(photo.id);
+        dispatch(removePhotoAction({ id: photo.id }));
         handleClose();
     }
 
