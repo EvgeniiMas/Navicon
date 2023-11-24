@@ -1,0 +1,18 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/packages
+/.vs/Auto/config
+/Auto.Plugins/bin
+/Auto.Plugins/obj
+/Auto.Workflows/obj
+/Auto.WebResources/bin
+/Auto.WebResources/obj
+/.vs/Auto
+/Auto.Common/bin
+/Auto.Common/obj
+/Auto.Workflows/bin/Release
+/Auto.ConsoleApp/bin
+/Auto.ConsoleApp/obj
+/.vs
