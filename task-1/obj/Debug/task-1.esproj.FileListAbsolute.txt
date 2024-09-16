@@ -1,0 +1,2 @@
+C:\Projects\react\task-1\obj\Debug\task-1.esproj.CoreCompileInputs.cache
+C:\Projects\navicon-project\task-1\obj\Debug\task-1.esproj.CoreCompileInputs.cache
